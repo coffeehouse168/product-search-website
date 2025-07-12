@@ -251,10 +251,17 @@
                 const lazadaUrl = `https://www.lazada.com.my/catalog/?q=${searchTerm}`;
                 const shopeeUrl = `https://shopee.com.my/search?keyword=${searchTerm}`;
                 
+                // 同时打开两个窗口
                 window.open(lazadaUrl, '_blank');
+                window.open(shopeeUrl, '_blank');
+                
+                // 备用方案：如果浏览器阻止了弹窗，显示提示
                 setTimeout(() => {
-                    window.open(shopeeUrl, '_blank');
-                }, 500);
+                    const userConfirm = confirm('如果只打开了一个网站，请点击"确定"手动打开第二个网站');
+                    if (userConfirm) {
+                        window.open(shopeeUrl, '_blank');
+                    }
+                }, 1000);
             }
         }
 
