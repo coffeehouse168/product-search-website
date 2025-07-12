@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品搜索助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .search-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .lazada-btn {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+        }
+
+        .lazada-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .shopee-btn {
+            background: linear-gradient(135deg, #ee4d2d, #ff6b35);
+            color: white;
+        }
+
+        .shopee-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(238, 77, 45, 0.4);
+        }
+
+        .search-all-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .search-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .tips {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .tips h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .tips p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+            }
+            
+            .search-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛍️ 产品搜索助手</h1>
+        <p class="subtitle">一键搜索 Lazada 和 Shopee 上的产品</p>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="输入要搜索的产品名称..." onkeypress="handleKeyPress(event)">
+        </div>
+        
+        <div class="buttons-container">
+            <button class="search-btn lazada-btn" onclick="searchLazada()">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                搜索 Lazada
+            </button>
+            
+            <button class="search-btn shopee-btn" onclick="searchShopee()">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                搜索 Shopee
+            </button>
+        </div>
+        
+        <button class="search-btn search-all-btn" onclick="searchAll()">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+            同时搜索两个平台
+        </button>
+        
+        <div class="tips">
+            <h3>💡 使用提示</h3>
+            <p>• 输入产品名称，比如"iPhone"、"运动鞋"等<br>
+            • 点击单个按钮搜索对应平台<br>
+            • 点击"同时搜索"按钮会在新标签页打开两个平台<br>
+            • 支持中文和英文搜索</p>
+        </div>
+    </div>
+
+    <script>
+        function getSearchTerm() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.trim();
+            
+            if (!searchTerm) {
+                alert('请输入要搜索的产品名称！');
+                searchInput.focus();
+                return null;
+            }
+            
+            return encodeURIComponent(searchTerm);
+        }
+
+        function searchLazada() {
+            const searchTerm = getSearchTerm();
+            if (searchTerm) {
+                const lazadaUrl = `https://www.lazada.com.my/catalog/?q=${searchTerm}`;
+                window.open(lazadaUrl, '_blank');
+            }
+        }
+
+        function searchShopee() {
+            const searchTerm = getSearchTerm();
+            if (searchTerm) {
+                const shopeeUrl = `https://shopee.com.my/search?keyword=${searchTerm}`;
+                window.open(shopeeUrl, '_blank');
+            }
+        }
+
+        function searchAll() {
+            const searchTerm = getSearchTerm();
+            if (searchTerm) {
+                const lazadaUrl = `https://www.lazada.com.my/catalog/?q=${searchTerm}`;
+                const shopeeUrl = `https://shopee.com.my/search?keyword=${searchTerm}`;
+                
+                window.open(lazadaUrl, '_blank');
+                setTimeout(() => {
+                    window.open(shopeeUrl, '_blank');
+                }, 500);
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                searchAll();
+            }
+        }
+
+        // 自动聚焦到搜索框
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('searchInput').focus();
+        });
+    </script>
+</body>
+</html>
